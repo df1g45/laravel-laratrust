@@ -43,7 +43,6 @@ class ArticleController extends Controller
         $this->validate($request, [
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string',],
-            'published' => ['required'],
         ]);
 
         request()->user()->articles()->create($request->all());
@@ -76,7 +75,7 @@ class ArticleController extends Controller
 
             if (
                 request()->user()->hasRole(['superadmin', 'admin']) ||
-                request()->user()->isAbleToAndOwns('update-articles', $article)
+                request()->user()->isAbleToAndOwns('articles-update', $article)
             ) {
                 return view('pages.article.edit', compact('article'));
             } else {
@@ -101,7 +100,7 @@ class ArticleController extends Controller
 
             if (
                 request()->user()->hasRole(['superadmin', 'admin']) ||
-                request()->user()->isAbleToAndOwns('update-articles', $article)
+                request()->user()->isAbleToAndOwns('articles-update', $article)
             ) {
                 $this->validate($request, [
                     'title' => ['required', 'string', 'max:255'],
@@ -133,7 +132,7 @@ class ArticleController extends Controller
 
             if (
                 request()->user()->hasRole(['superadmin']) ||
-                request()->user()->isAbleToAndOwns('delete-articles', $article)
+                request()->user()->isAbleToAndOwns('articles-delete', $article)
             ) {
                 $article->delete();
 
